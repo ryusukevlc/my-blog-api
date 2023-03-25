@@ -8,16 +8,20 @@ public class Tag {
     private long id;
 
     //タグ名
-    private String name;
+    private final String name;
 
     //作成日時
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
 
     //更新日時
-    private LocalDateTime updated_at;
-
+    private LocalDateTime updatedAt;
 
     public Tag(String name) {
+
+        if ("".equals(name)) {
+            throw new IllegalArgumentException();
+        }
+
         this.name = name;
     }
 }
