@@ -10,5 +10,5 @@ public interface ArticleRepository {
 
     List<Article> selectForPagination(int limit, int offset);
 
-    List<Article> selectAll();
+    Article selectForArticleDetail(int id);
 }

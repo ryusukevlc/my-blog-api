@@ -5,23 +5,25 @@ import java.time.LocalDateTime;
 public class Tag {
 
     //id
-    private long id;
-
+    public final long id;
     //タグ名
-    private final String name;
+    public final String name;
 
     //作成日時
-    private LocalDateTime createdAt;
+    public final LocalDateTime createdAt;
 
     //更新日時
-    private LocalDateTime updatedAt;
+    public final LocalDateTime updatedAt;
 
-    public Tag(String name) {
+    public Tag(int id, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         if ("".equals(name)) {
             throw new IllegalArgumentException();
         }
 
+        this.id = id;
         this.name = name;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
     }
 }

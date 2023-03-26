@@ -54,7 +54,6 @@ public class Article {
         this.id = id;
         this.title = title;
         this.content = content;
-        this.partOfContent = content.substring(0, MAX_PART_OF_CONTENT);
 
         if (tagList != null && !tagList.isEmpty()) {
             this.tagList = tagList;
@@ -70,6 +69,8 @@ public class Article {
         } else {
             this.updatedAt = null;
         }
+
+        this.partOfContent = "";
     }
 
     public Article(int id, String title, String partOfContent, LocalDateTime createdAt) {
