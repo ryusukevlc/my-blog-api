@@ -33,6 +33,10 @@ public class Article {
     private List<Tag> tagList = new ArrayList<>();
 
     private final static int MAX_PART_OF_CONTENT = 180;
+    private final static String ERROR_MESSAGE_FOR_ID = "IDが存在しません。";
+    private final static String ERROR_MESSAGE_FOR_TITLE = "タイトルが存在しません。";
+    private final static String ERROR_MESSAGE_FOR_CONTENT = "記事内容が存在しません。";
+    private final static String ERROR_MESSAGE_FOR_PART_OF_CONTENT = "記事内容(省略版)が存在しません。";
 
     public Article() {
     }
@@ -50,11 +54,11 @@ public class Article {
     public Article(int id, String title, String content, List<Tag> tagList, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
         if (Objects.isNull(title) || title.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_TITLE);
         }
 
         if (Objects.isNull(content) || content.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_CONTENT);
         }
 
         this.id = id;
@@ -92,11 +96,11 @@ public class Article {
         this.id = id;
 
         if (Objects.isNull(title) || title.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_TITLE);
         }
 
         if (Objects.isNull(partOfContent) || partOfContent.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_PART_OF_CONTENT);
         }
 
         this.title = title;
@@ -122,11 +126,47 @@ public class Article {
     public Article(String title, String content, List<Tag> tagList) {
 
         if (Objects.isNull(title) || title.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_TITLE);
         }
 
         if (Objects.isNull(content) || content.isEmpty()) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_CONTENT);
+        }
+
+        this.title = title;
+        this.content = content;
+        if (content.length() > 180) {
+            this.partOfContent = content.substring(0, 180);
+        } else {
+            this.partOfContent = content;
+        }
+
+        if (tagList != null && !tagList.isEmpty()) {
+            this.tagList = tagList;
+        }
+    }
+
+    /**
+     * PATCH用コンストラクタ
+     *
+     * @param title
+     * @param content
+     * @param tagList
+     */
+    public Article(int id, String title, String content, List<Tag> tagList) {
+
+        if (Objects.isNull(id) || id == 0) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_ID);
+        }
+
+        this.id = id;
+
+        if (Objects.isNull(title) || title.isEmpty()) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_TITLE);
+        }
+
+        if (Objects.isNull(content) || content.isEmpty()) {
+            throw new IllegalArgumentException(ERROR_MESSAGE_FOR_CONTENT);
         }
 
         this.title = title;

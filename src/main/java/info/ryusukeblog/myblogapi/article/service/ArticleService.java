@@ -12,7 +12,7 @@ public interface ArticleService {
 
     Article save(Article article);
 
-    Article saveArticle(Article article);
+    Article update(Article article);
 
     void delete(int id);
 }

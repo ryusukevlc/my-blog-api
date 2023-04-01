@@ -35,11 +35,18 @@ public class ArticleController {
     @PostMapping("/articles")
     public Article create(@RequestBody ArticleDto articleDto) {
         // バリデーションの意味でDTOとして受け取ってからModelに渡している。もし不正な値が渡された場合はModelでバリデートして例外を送出する。
-        Article article = this.articleMapper.getArticleFromDto(articleDto);
+        Article article = this.articleMapper.getArticleFromDtoForCreate(articleDto);
         return this.articleService.save(article);
     }
 
-    @PostMapping("/articles/{id}")
+    @PatchMapping("/articles")
+    public Article update(@RequestBody ArticleDto articleDto) {
+        // バリデーションの意味でDTOとして受け取ってからModelに渡している。もし不正な値が渡された場合はModelでバリデートして例外を送出する。
+        Article article = this.articleMapper.getArticleFromDtoForUpdate(articleDto);
+        return this.articleService.update(article);
+    }
+
+    @DeleteMapping("/articles/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") int id) {
         this.articleService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

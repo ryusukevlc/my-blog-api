@@ -30,8 +30,23 @@ public class ArticleMapper {
      * @param articleDto
      * @return
      */
-    public Article getArticleFromDto(ArticleDto articleDto) {
+    public Article getArticleFromDtoForCreate(ArticleDto articleDto) {
         return new Article(
+                articleDto.title,
+                articleDto.content,
+                articleDto.tagList
+        );
+    }
+
+    /**
+     * PATCH用
+     *
+     * @param articleDto
+     * @return
+     */
+    public Article getArticleFromDtoForUpdate(ArticleDto articleDto) {
+        return new Article(
+                articleDto.id,
                 articleDto.title,
                 articleDto.content,
                 articleDto.tagList

@@ -27,13 +27,14 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public Article save(Article article) {
-        return this.saveArticle(article);
+        return articleRepository.save(article);
     }
 
     @Override
-    public Article saveArticle(Article article) {
-        return articleRepository.save(article);
+    public Article update(Article article) {
+        return this.articleRepository.update(article);
     }
+
 
     @Override
     public void delete(int id) {

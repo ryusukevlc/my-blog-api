@@ -12,5 +12,7 @@ public interface ArticleRepository {
 
     Article selectForArticleDetail(int id);
 
+    Article update(Article article);
+
     void delete(int id);
 }
