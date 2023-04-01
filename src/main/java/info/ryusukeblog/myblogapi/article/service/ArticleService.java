@@ -24,7 +24,7 @@ public class ArticleService {
     }
 
     public void save(Article article) {
-//        this.saveArticle();
+        this.saveArticle(article);
         this.saveTags();
     }
 

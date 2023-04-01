@@ -20,7 +20,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     public void save(Article article) {
-
+        String sql = "insert into articles (id, title, content, part_of_content) values (?, ?, ?, ?)";
     }
 
     @Override
@@ -34,7 +34,6 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
         String sql_article = "select id, title, content, created_at, updated_at from articles where id = ?";
         Article article = jdbcTemplate.queryForObject(sql_article, new ArticleRowMapper(), id);
-        System.out.println(article);
         String sql_tags = "select tags.id, tags.name, tags.created_at, tags.updated_at from articles_tags left join tags on articles_tags.tag_id=tags.id where articles_tags.article_id in (?);";
         List<Tag> tags = jdbcTemplate.query(sql_tags, new TagsExtractor(), id);
 

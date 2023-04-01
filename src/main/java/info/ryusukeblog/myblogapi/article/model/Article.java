@@ -9,30 +9,33 @@ import java.util.Objects;
 public class Article {
 
     //id（pk）
-    public final int id;
+    private int id;
 
     //記事タイトル
-    public final String title;
+    private String title;
 
     //記事内容
-    public final String content;
+    private String content;
+
+    //記事編集中フラグ
+    private boolean isWriting = false;
 
     //作成日時
-    public final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     //更新日時
-    public final LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     // 内容の一部（ホーム画面で表示する用）
-    public final String partOfContent;
+    private String partOfContent;
 
     // タグリスト
-    public List<Tag> tagList = new ArrayList<>();
+    private List<Tag> tagList = new ArrayList<>();
 
     private final static int MAX_PART_OF_CONTENT = 180;
 
     /**
-     * 記事詳細用コンストラクタ
+     * 記事詳細用コンストラクタ(get)
      *
      * @param id
      * @param title
@@ -73,6 +76,14 @@ public class Article {
         this.partOfContent = "";
     }
 
+    /**
+     * ホーム画面表示用コンストラクタ(get)
+     *
+     * @param id
+     * @param title
+     * @param partOfContent
+     * @param createdAt
+     */
     public Article(int id, String title, String partOfContent, LocalDateTime createdAt) {
 
         this.id = id;
@@ -96,7 +107,32 @@ public class Article {
 
         this.content = "";
         this.updatedAt = null;
+    }
 
+    /**
+     * post用コンストラクタ
+     *
+     * @param title
+     * @param content
+     * @param tagList
+     */
+    public Article(String title, String content, List<Tag> tagList) {
+
+        if (Objects.isNull(title) || title.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        if (Objects.isNull(content) || content.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        this.title = title;
+        this.content = content;
+        this.partOfContent = content.substring(0, 180);
+
+        if (tagList != null && !tagList.isEmpty()) {
+            this.tagList = tagList;
+        }
     }
 
     public void setTagIntoTagList(Tag tag) {
@@ -110,4 +146,37 @@ public class Article {
             this.tagList = tagList;
         }
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public boolean getIsWriting() {
+        return isWriting;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public String getPartOfContent() {
+        return partOfContent;
+    }
+
+    public List<Tag> getTagList() {
+        return tagList;
+    }
+
 }

@@ -5,15 +5,15 @@ import java.time.LocalDateTime;
 public class Tag {
 
     //id
-    public final long id;
+    private long id;
     //タグ名
-    public final String name;
+    private String name;
 
     //作成日時
-    public final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
     //更新日時
-    public final LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     public Tag(int id, String name, LocalDateTime createdAt, LocalDateTime updatedAt) {
 
@@ -26,4 +26,21 @@ public class Tag {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
 }
