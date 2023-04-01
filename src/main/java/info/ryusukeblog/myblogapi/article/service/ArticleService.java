@@ -1,40 +1,19 @@
 package info.ryusukeblog.myblogapi.article.service;
 
 import info.ryusukeblog.myblogapi.article.model.Article;
-import info.ryusukeblog.myblogapi.article.repository.ArticleRepository;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service
-public class ArticleService {
+public interface ArticleService {
 
-    ArticleRepository articleRepository;
+    List<Article> getArticlesForPagination(int limit, int offset);
 
-    public ArticleService(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
-    }
+    Article getArticleDetail(int id);
 
-    public List<Article> getArticlesForPagination(int limit, int offset) {
-        return this.articleRepository.selectForPagination(limit, offset);
-    }
+    Article save(Article article);
 
-    public Article getArticleDetail(int id) {
-        return this.articleRepository.selectForArticleDetail(id);
-    }
+    Article saveArticle(Article article);
 
-    public void save(Article article) {
-        this.saveArticle(article);
-        this.saveTags();
-    }
-
-    public void saveArticle(Article article) {
-        articleRepository.save(article);
-    }
-
-    public void saveTags() {
-
-    }
-
-
+    void delete(int id);
 }
+

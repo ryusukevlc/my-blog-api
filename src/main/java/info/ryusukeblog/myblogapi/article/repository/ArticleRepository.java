@@ -6,9 +6,11 @@ import java.util.List;
 
 public interface ArticleRepository {
 
-    void save(Article article);
+    Article save(Article article);
 
     List<Article> selectForPagination(int limit, int offset);
 
     Article selectForArticleDetail(int id);
+
+    void delete(int id);
 }

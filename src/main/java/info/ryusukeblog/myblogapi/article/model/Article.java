@@ -34,6 +34,9 @@ public class Article {
 
     private final static int MAX_PART_OF_CONTENT = 180;
 
+    public Article() {
+    }
+
     /**
      * 記事詳細用コンストラクタ(get)
      *
@@ -128,7 +131,11 @@ public class Article {
 
         this.title = title;
         this.content = content;
-        this.partOfContent = content.substring(0, 180);
+        if (content.length() > 180) {
+            this.partOfContent = content.substring(0, 180);
+        } else {
+            this.partOfContent = content;
+        }
 
         if (tagList != null && !tagList.isEmpty()) {
             this.tagList = tagList;
