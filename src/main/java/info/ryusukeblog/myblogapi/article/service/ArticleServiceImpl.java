@@ -1,5 +1,6 @@
 package info.ryusukeblog.myblogapi.article.service;
 
+import info.ryusukeblog.myblogapi.article.dto.ArticleDto;
 import info.ryusukeblog.myblogapi.article.model.Article;
 import info.ryusukeblog.myblogapi.article.repository.ArticleRepository;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,8 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<Article> getArticlesForPagination(int limit, int offset) {
-        return this.articleRepository.selectForPagination(limit, offset);
+    public List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields) {
+        return this.articleRepository.selectForPagination(limit, offset, fields);
     }
 
     @Override

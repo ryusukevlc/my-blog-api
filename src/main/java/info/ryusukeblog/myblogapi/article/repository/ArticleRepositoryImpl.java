@@ -1,5 +1,6 @@
 package info.ryusukeblog.myblogapi.article.repository;
 
+import info.ryusukeblog.myblogapi.article.dto.ArticleDto;
 import info.ryusukeblog.myblogapi.article.model.Article;
 import info.ryusukeblog.myblogapi.article.model.Tag;
 import info.ryusukeblog.myblogapi.article.repository.extractor.ArticlesExtractor;
@@ -37,9 +38,10 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public List<Article> selectForPagination(int limit, int offset) {
-        String sql = "select id, title, part_of_content, created_at from articles where is_writing = 0 order by created_at desc limit ? offset ?";
-        return jdbcTemplate.query(sql, new ArticlesExtractor(), limit, offset);
+    public List<ArticleDto> selectForPagination(int limit, int offset, List<String> fields) {
+        String joinedFields = String.join(",", fields);
+        String sql = "select " + joinedFields + " from articles where is_writing = 0 order by created_at desc limit ? offset ?";
+        return jdbcTemplate.query(sql, new ArticlesExtractor(fields), limit, offset);
     }
 
     @Override

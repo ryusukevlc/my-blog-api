@@ -16,6 +16,11 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    public Tag save(Tag tag) {
+        return this.tagRepository.save(tag);
+    }
+
+    @Override
     public List<Tag> getTags() {
         return this.tagRepository.getTags();
     }

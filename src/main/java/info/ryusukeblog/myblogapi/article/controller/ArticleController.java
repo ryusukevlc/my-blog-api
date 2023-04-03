@@ -23,8 +23,9 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public List<Article> getArticles(@RequestParam("limit") int limit, @RequestParam("offset") int offset) {
-        return this.articleService.getArticlesForPagination(limit, offset);
+    public List<ArticleDto> getArticles(@RequestParam("limit") int limit, @RequestParam("offset") int offset, @RequestParam(value = "fields", defaultValue = "") List<String> fields) {
+        new Article().validateFieldNames(fields);
+        return this.articleService.getArticlesForPagination(limit, offset, fields);
     }
 
     @GetMapping("/articles/{id}")

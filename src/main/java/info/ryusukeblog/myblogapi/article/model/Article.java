@@ -2,6 +2,7 @@ package info.ryusukeblog.myblogapi.article.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -179,6 +180,20 @@ public class Article {
 
         if (tagList != null && !tagList.isEmpty()) {
             this.tagList = tagList;
+        }
+    }
+
+    /**
+     * getArticlesのクエリパラメータに指定されたフィールド（カラム）が存在するカラムがチェックする（SQLインジェクション対策）
+     *
+     * @param fields
+     */
+    public void validateFieldNames(List<String> fields) {
+        List<String> allowedFields = Arrays.asList("id", "title", "content", "part_of_content", "is_writing", "created_at", "updated_at");
+        for (String field : fields) {
+            if (!allowedFields.contains(field.trim())) {
+                throw new IllegalArgumentException("Invalid field name: " + field);
+            }
         }
     }
 
