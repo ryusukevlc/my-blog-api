@@ -11,6 +11,8 @@ public interface ArticleRepository {
 
     List<ArticleDto> selectForPagination(int limit, int offset, List<String> fields);
 
+    int getArticleCount();
+
     Article selectForArticleDetail(int id);
 
     Article update(Article article);

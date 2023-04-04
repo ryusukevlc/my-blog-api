@@ -22,6 +22,11 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public int getArticleCount() {
+        return this.articleRepository.getArticleCount();
+    }
+
+    @Override
     public Article getArticleDetail(int id) {
         return this.articleRepository.selectForArticleDetail(id);
     }

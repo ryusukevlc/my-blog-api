@@ -46,6 +46,16 @@ public class ArticlesExtractor implements ResultSetExtractor<List<ArticleDto>> {
             if (fields.contains("updated_at")) {
                 articleDto.setUpdatedAt(rs.getObject("updated_at", LocalDateTime.class));
             }
+
+            if (fields.isEmpty()) {
+                articleDto.setId(rs.getInt("id"));
+                articleDto.setTitle(rs.getString("title"));
+                articleDto.setContent(rs.getString("content"));
+                articleDto.setPartOfContent(rs.getString("part_of_content"));
+                articleDto.setIsWriting(rs.getBoolean("is_writing"));
+                articleDto.setCreatedAt(rs.getObject("created_at", LocalDateTime.class));
+                articleDto.setUpdatedAt(rs.getObject("updated_at", LocalDateTime.class));
+            }
             // TODO: tagListが無いので後で追加する
             articles.add(articleDto);
         }

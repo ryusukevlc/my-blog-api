@@ -9,6 +9,8 @@ public interface ArticleService {
 
     List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields);
 
+    int getArticleCount();
+
     Article getArticleDetail(int id);
 
     Article save(Article article);

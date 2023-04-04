@@ -8,7 +8,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class ArticleController {
@@ -23,9 +25,18 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public List<ArticleDto> getArticles(@RequestParam("limit") int limit, @RequestParam("offset") int offset, @RequestParam(value = "fields", defaultValue = "") List<String> fields) {
+    public List<ArticleDto> getArticles(@RequestParam(value = "limit", required = false, defaultValue = "0") int limit, @RequestParam(value = "offset", required = false, defaultValue = "0") int offset, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
         new Article().validateFieldNames(fields);
+        System.out.println(limit);
+        System.out.println(offset);
         return this.articleService.getArticlesForPagination(limit, offset, fields);
+    }
+
+    @GetMapping("/articles/count")
+    public Map<String, Integer> getArticleCount() {
+        Map<String, Integer> response = new HashMap<>();
+        response.put("allArticleNumbers", this.articleService.getArticleCount());
+        return response;
     }
 
     @GetMapping("/articles/{id}")

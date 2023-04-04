@@ -39,9 +39,20 @@ public class ArticleRepositoryImpl implements ArticleRepository {
 
     @Override
     public List<ArticleDto> selectForPagination(int limit, int offset, List<String> fields) {
-        String joinedFields = String.join(",", fields);
+        String joinedFields;
+        if (fields.isEmpty()) {
+            joinedFields = "*";
+        } else {
+            joinedFields = String.join(",", fields);
+        }
         String sql = "select " + joinedFields + " from articles where is_writing = 0 order by created_at desc limit ? offset ?";
         return jdbcTemplate.query(sql, new ArticlesExtractor(fields), limit, offset);
+    }
+
+    @Override
+    public int getArticleCount() {
+        String sql = "select count(*) from articles";
+        return jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     @Override
