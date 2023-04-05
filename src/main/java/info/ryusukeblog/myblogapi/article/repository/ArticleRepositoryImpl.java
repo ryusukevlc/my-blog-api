@@ -25,7 +25,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public Article save(Article article) {
+    public ArticleDto save(Article article) {
 
         String sqlForArticles = "insert into articles (title, content, part_of_content, is_writing) values (?, ?, ?, ?)";
         String sqlForGettingIdLatestArticle = "select last_insert_id()";
@@ -34,7 +34,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
         int articleId = this.jdbcTemplate.queryForObject(sqlForGettingIdLatestArticle, Integer.class);
         this.saveArticlesTags(articleId, article.getTagList());
 
-        return this.selectForArticleDetail(articleId);
+        return this.selectForArticleDetail(articleId, null);
     }
 
     @Override
@@ -56,12 +56,17 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public Article selectForArticleDetail(int id) {
-
-        String sql_article = "select id, title, content, created_at, updated_at from articles where id = ?";
+    public ArticleDto selectForArticleDetail(int id, List<String> fields) {
+        String joinedFields;
+        if (fields.isEmpty()) {
+            joinedFields = "*";
+        } else {
+            joinedFields = String.join(",", fields);
+        }
+        String sql_article = "select " + joinedFields + " from articles where id = ?";
         String sql_tags = "select tags.id, tags.name, tags.created_at, tags.updated_at from articles_tags left join tags on articles_tags.tag_id=tags.id where articles_tags.article_id in (?);";
 
-        Article article = this.jdbcTemplate.queryForObject(sql_article, new ArticleRowMapper(), id);
+        ArticleDto article = this.jdbcTemplate.queryForObject(sql_article, new ArticleRowMapper(fields), id);
         List<Tag> tags = this.jdbcTemplate.query(sql_tags, new TagsExtractor(), id);
 
         article.setTagList(tags);
@@ -69,7 +74,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     }
 
     @Override
-    public Article update(Article article) {
+    public ArticleDto update(Article article) {
 
         String sqlForArticles = "update articles set title = ?, content = ?, part_of_content = ? where id = ?";
         String sqlForDeleteArticlesTags = "delete from articles_tags where id = ?";
@@ -82,7 +87,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
         this.jdbcTemplate.update(sqlForDeleteArticlesTags, article.getId());
         this.saveArticlesTags(article.getId(), article.getTagList());
 
-        return this.selectForArticleDetail(article.getId());
+        return this.selectForArticleDetail(article.getId(), null);
     }
 
     @Override

@@ -7,15 +7,15 @@ import java.util.List;
 
 public interface ArticleRepository {
 
-    Article save(Article article);
+    ArticleDto save(Article article);
 
     List<ArticleDto> selectForPagination(int limit, int offset, List<String> fields);
 
     int getArticleCount();
 
-    Article selectForArticleDetail(int id);
+    ArticleDto selectForArticleDetail(int id, List<String> fields);
 
-    Article update(Article article);
+    ArticleDto update(Article article);
 
     void delete(int id);
 }

@@ -27,8 +27,6 @@ public class ArticleController {
     @GetMapping("/articles")
     public List<ArticleDto> getArticles(@RequestParam(value = "limit", required = false, defaultValue = "0") int limit, @RequestParam(value = "offset", required = false, defaultValue = "0") int offset, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
         new Article().validateFieldNames(fields);
-        System.out.println(limit);
-        System.out.println(offset);
         return this.articleService.getArticlesForPagination(limit, offset, fields);
     }
 
@@ -40,19 +38,20 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public Article getArticle(@PathVariable("id") int id) {
-        return this.articleService.getArticleDetail(id);
+    public ArticleDto getArticle(@PathVariable("id") int id, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
+        new Article().validateFieldNames(fields);
+        return this.articleService.getArticleDetail(id, fields);
     }
 
     @PostMapping("/articles")
-    public Article create(@RequestBody ArticleDto articleDto) {
+    public ArticleDto create(@RequestBody ArticleDto articleDto) {
         // バリデーションの意味でDTOとして受け取ってからModelに渡している。もし不正な値が渡された場合はModelでバリデートして例外を送出する。
         Article article = this.articleMapper.getArticleFromDtoForCreate(articleDto);
         return this.articleService.save(article);
     }
 
     @PatchMapping("/articles")
-    public Article update(@RequestBody ArticleDto articleDto) {
+    public ArticleDto update(@RequestBody ArticleDto articleDto) {
         // バリデーションの意味でDTOとして受け取ってからModelに渡している。もし不正な値が渡された場合はModelでバリデートして例外を送出する。
         Article article = this.articleMapper.getArticleFromDtoForUpdate(articleDto);
         return this.articleService.update(article);

@@ -27,17 +27,17 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public Article getArticleDetail(int id) {
-        return this.articleRepository.selectForArticleDetail(id);
+    public ArticleDto getArticleDetail(int id, List<String> fields) {
+        return this.articleRepository.selectForArticleDetail(id, fields);
     }
 
     @Override
-    public Article save(Article article) {
+    public ArticleDto save(Article article) {
         return articleRepository.save(article);
     }
 
     @Override
-    public Article update(Article article) {
+    public ArticleDto update(Article article) {
         return this.articleRepository.update(article);
     }
 

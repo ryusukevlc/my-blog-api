@@ -11,11 +11,11 @@ public interface ArticleService {
 
     int getArticleCount();
 
-    Article getArticleDetail(int id);
+    ArticleDto getArticleDetail(int id, List<String> fields);
 
-    Article save(Article article);
+    ArticleDto save(Article article);
 
-    Article update(Article article);
+    ArticleDto update(Article article);
 
     void delete(int id);
 }
