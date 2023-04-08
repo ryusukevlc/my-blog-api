@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class ArticleRepositoryImpl implements ArticleRepository {
@@ -40,7 +41,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     @Override
     public List<ArticleDto> selectForPagination(int limit, int offset, List<String> fields) {
         String joinedFields;
-        if (fields.isEmpty()) {
+        if (Objects.isNull(fields) || fields.isEmpty()) {
             joinedFields = "*";
         } else {
             joinedFields = String.join(",", fields);
@@ -58,6 +59,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     @Override
     public ArticleDto selectForArticleDetail(int id, List<String> fields) {
         String joinedFields;
+
+        if (Objects.isNull(fields)) {
+            fields = new ArrayList<>();
+        }
+
         if (fields.isEmpty()) {
             joinedFields = "*";
         } else {
@@ -93,7 +99,9 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     @Override
     public void delete(int id) {
         String sql = "delete from articles where id = ?";
+        String sqlForArticlesTags = "delete from articles_tags where article_id = ?";
         this.jdbcTemplate.update(sql, id);
+        this.jdbcTemplate.update(sqlForArticlesTags, id);
     }
 
     private void saveArticlesTags(int articleId, List<Tag> tagList) {

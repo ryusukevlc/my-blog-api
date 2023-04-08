@@ -9,13 +9,18 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ArticlesExtractor implements ResultSetExtractor<List<ArticleDto>> {
 
     List<String> fields;
 
     public ArticlesExtractor(List<String> fields) {
-        this.fields = fields;
+        if (Objects.isNull(fields) || fields.isEmpty()) {
+            this.fields = new ArrayList<>();
+        } else {
+            this.fields = fields;
+        }
     }
 
     @Override
