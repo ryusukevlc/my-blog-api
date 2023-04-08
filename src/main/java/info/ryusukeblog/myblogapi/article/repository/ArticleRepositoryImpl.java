@@ -83,7 +83,7 @@ public class ArticleRepositoryImpl implements ArticleRepository {
     public ArticleDto update(Article article) {
 
         String sqlForArticles = "update articles set title = ?, content = ?, part_of_content = ? where id = ?";
-        String sqlForDeleteArticlesTags = "delete from articles_tags where id = ?";
+        String sqlForDeleteArticlesTags = "delete from articles_tags where article_id = ?";
 
         int updateCount = this.jdbcTemplate.update(sqlForArticles, article.getTitle(), article.getContent(), article.getPartOfContent(), article.getId());
         if (updateCount != EXCPECTED_UPDATE_NUMBER) {
