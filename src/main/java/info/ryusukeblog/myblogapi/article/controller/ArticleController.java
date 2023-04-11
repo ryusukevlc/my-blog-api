@@ -38,9 +38,9 @@ public class ArticleController {
     }
 
     @GetMapping("/articles/{id}")
-    public ArticleDto getArticle(@PathVariable("id") int id, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
+    public ArticleDto getArticle(@PathVariable("id") int id, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields, @RequestParam(value = "markdown", required = false, defaultValue = "false") boolean isMarkdown) {
         new Article().validateFieldNames(fields);
-        return this.articleService.getArticleDetail(id, fields);
+        return this.articleService.getArticleDetail(id, fields, isMarkdown);
     }
 
     @PostMapping("/articles")

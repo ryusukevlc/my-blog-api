@@ -1,5 +1,8 @@
 package info.ryusukeblog.myblogapi.article.service;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Document;
 import info.ryusukeblog.myblogapi.article.dto.ArticleDto;
 import info.ryusukeblog.myblogapi.article.model.Article;
 import info.ryusukeblog.myblogapi.article.repository.ArticleRepository;
@@ -27,8 +30,15 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto getArticleDetail(int id, List<String> fields) {
-        return this.articleRepository.selectForArticleDetail(id, fields);
+    public ArticleDto getArticleDetail(int id, List<String> fields, boolean isMarkdown) {
+        ArticleDto articleDto = this.articleRepository.selectForArticleDetail(id, fields);
+        if (!isMarkdown) {
+            Parser parser = Parser.builder().build();
+            Document document = parser.parse(articleDto.getContent());
+            HtmlRenderer renderer = HtmlRenderer.builder().build();
+            articleDto.setContent(renderer.render(document));
+        }
+        return articleDto;
     }
 
     @Override

@@ -11,7 +11,7 @@ public interface ArticleService {
 
     int getArticleCount();
 
-    ArticleDto getArticleDetail(int id, List<String> fields);
+    ArticleDto getArticleDetail(int id, List<String> fields, boolean isMarkdown);
 
     ArticleDto save(Article article);
 

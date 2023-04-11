@@ -1,10 +1,16 @@
 package info.ryusukeblog.myblogapi.article.model;
 
+import com.vladsch.flexmark.html.HtmlRenderer;
+import com.vladsch.flexmark.parser.Parser;
+import com.vladsch.flexmark.util.ast.Node;
+import com.vladsch.flexmark.util.data.MutableDataSet;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 
 public class Article {
@@ -136,10 +142,12 @@ public class Article {
 
         this.title = title;
         this.content = content;
-        if (content.length() > 180) {
-            this.partOfContent = content.substring(0, 180);
+        String text = convertMarkdownToPlainText(content);
+        System.out.println(text);
+        if (text.length() > 180) {
+            this.partOfContent = text.substring(0, 180);
         } else {
-            this.partOfContent = content;
+            this.partOfContent = text;
         }
 
         if (tagList != null && !tagList.isEmpty()) {
@@ -172,10 +180,12 @@ public class Article {
 
         this.title = title;
         this.content = content;
-        if (content.length() > 180) {
-            this.partOfContent = content.substring(0, 180);
+        String text = convertMarkdownToPlainText(content);
+        System.out.println(text);
+        if (text.length() > 180) {
+            this.partOfContent = text.substring(0, 180);
         } else {
-            this.partOfContent = content;
+            this.partOfContent = text;
         }
 
         if (tagList != null && !tagList.isEmpty()) {
@@ -239,6 +249,21 @@ public class Article {
 
     public List<Tag> getTagList() {
         return tagList;
+    }
+
+    private static String convertMarkdownToPlainText(String markdown) {
+        MutableDataSet options = new MutableDataSet();
+        Parser parser = Parser.builder(options).build();
+        HtmlRenderer renderer = HtmlRenderer.builder(options).build();
+
+        Node document = parser.parse(markdown);
+        String html = renderer.render(document);
+        return removeHtmlTags(html);
+    }
+
+    private static String removeHtmlTags(String html) {
+        String noTags = Pattern.compile("<[^>]*>").matcher(html).replaceAll("");
+        return noTags.replaceAll("\\s+", " ").trim();
     }
 
 }
