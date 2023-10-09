@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
     <property name="logFileName" value="app"/>
 
     <!--ローカル環境用設定 -->
     <springProfile name="default">
-        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
         <property name="logFilePath" value="./"/>
     </springProfile>
 
     <!--dev環境用設定 -->
     <springProfile name="dev">
-        <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
         <property name="logFilePath" value="/var/log/ryusukeblog-dev/"/>
     </springProfile>
 
     <!--prod環境用設定 -->
     <springProfile name="prod">
-        <include resource="org/springframework/boot/logging/logback/base.xml"/>
         <property name="logFilePath" value="/var/log/ryusukeblog-prod/"/>
     </springProfile>
 
