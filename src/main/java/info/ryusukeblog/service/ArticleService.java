@@ -1,22 +1,21 @@
 package info.ryusukeblog.service;
 
-import info.ryusukeblog.dto.ArticleDto;
-import info.ryusukeblog.model.models.Article;
-
 import java.util.List;
+
+import info.ryusukeblog.dto.ArticleDto;
 
 public interface ArticleService {
 
-    List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields);
+    List<ArticleDto> getArticlesForPagination(int limit, int offset);
 
-    int getArticleCount();
+    long getArticleCount();
 
-    ArticleDto getArticleDetail(int id, List<String> fields, boolean isMarkdown);
+    ArticleDto getArticle(int id, boolean isMarkdown);
 
-    ArticleDto save(Article article);
+    ArticleDto save(ArticleDto articleDto);
 
-    ArticleDto update(Article article);
+    ArticleDto update(ArticleDto articleDto);
 
-    void delete(int id);
+    boolean delete(int id);
 }
 

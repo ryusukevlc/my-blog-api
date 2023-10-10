@@ -1,9 +1,8 @@
 package info.ryusukeblog.controller;
 
-import info.ryusukeblog.model.models.Article;
-import info.ryusukeblog.service.ArticleService;
 import info.ryusukeblog.dto.ArticleDto;
-import info.ryusukeblog.dto.ArticleMapper;
+import info.ryusukeblog.service.ArticleService;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,50 +16,45 @@ public class ArticleController {
 
     ArticleService articleService;
 
-    ArticleMapper articleMapper;
 
-    public ArticleController(ArticleService articleService, ArticleMapper articleMapper) {
+    public ArticleController(ArticleService articleService) {
         this.articleService = articleService;
-        this.articleMapper = articleMapper;
     }
 
     @GetMapping("/articles")
-    public List<ArticleDto> getArticles(@RequestParam(value = "limit", required = false, defaultValue = "0") int limit, @RequestParam(value = "offset", required = false, defaultValue = "0") int offset, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
-        new Article().validateFieldNames(fields);
-        return this.articleService.getArticlesForPagination(limit, offset, fields);
+    public List<ArticleDto> getArticles(@RequestParam(value = "limit", required = true, defaultValue = "0") int limit, @RequestParam(value = "offset", required = true, defaultValue = "0") int offset) {
+        return this.articleService.getArticlesForPagination(limit, offset);
     }
 
     @GetMapping("/articles/count")
-    public Map<String, Integer> getArticleCount() {
-        Map<String, Integer> response = new HashMap<>();
+    public Map<String, Long> getArticleCount() {
+        Map<String, Long> response = new HashMap<>();
         response.put("allArticleNumbers", this.articleService.getArticleCount());
         return response;
     }
 
     @GetMapping("/articles/{id}")
-    public ArticleDto getArticle(@PathVariable("id") int id, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields, @RequestParam(value = "markdown", required = false, defaultValue = "false") boolean isMarkdown) {
-        new Article().validateFieldNames(fields);
-        return this.articleService.getArticleDetail(id, fields, isMarkdown);
+    public ArticleDto getArticle(@PathVariable("id") int id, @RequestParam(value = "markdown", required = false, defaultValue = "false") boolean isMarkdown) {
+        return this.articleService.getArticle(id, isMarkdown);
     }
 
     @PostMapping("/articles")
     public ArticleDto create(@RequestBody ArticleDto articleDto) {
-        // バリデーションの意味でDTOとして受け取ってからModelに渡している。もし不正な値が渡された場合はModelでバリデートして例外を送出する。
-        Article article = this.articleMapper.getArticleFromDtoForCreate(articleDto);
-        return this.articleService.save(article);
+        return this.articleService.save(articleDto);
     }
 
     @PatchMapping("/articles")
     public ArticleDto update(@RequestBody ArticleDto articleDto) {
-        // バリデーションの意味でDTOとして受け取ってからModelに渡している。もし不正な値が渡された場合はModelでバリデートして例外を送出する。
-        Article article = this.articleMapper.getArticleFromDtoForUpdate(articleDto);
-        return this.articleService.update(article);
+        return this.articleService.update(articleDto);
     }
 
     @DeleteMapping("/articles/{id}")
-    public ResponseEntity<String> delete(@PathVariable("id") int id) {
-        this.articleService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
+        boolean hasDeleted = this.articleService.delete(id);
+        if (hasDeleted) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 }

@@ -3,60 +3,107 @@ package info.ryusukeblog.service.impl;
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Document;
-import info.ryusukeblog.repository.ArticleRepository;
+
+import info.ryusukeblog.repository.ArticleMapper;
 import info.ryusukeblog.dto.ArticleDto;
-import info.ryusukeblog.model.models.Article;
+import info.ryusukeblog.model.Article;
 import info.ryusukeblog.service.ArticleService;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
-    ArticleRepository articleRepository;
+    static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
-    public ArticleServiceImpl(ArticleRepository articleRepository) {
-        this.articleRepository = articleRepository;
+    private static final String INSERT = "INSERT";
+    private static final String UPDATE = "UPDATE";
+
+    private final ArticleMapper articleMapper;
+    private final ModelMapper modelMapper;
+
+    public ArticleServiceImpl(ArticleMapper articleMapper, ModelMapper modelMapper) {
+        this.articleMapper = articleMapper;
+        this.modelMapper = modelMapper;
     }
 
     @Override
-    public List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields) {
-        return this.articleRepository.selectForPagination(limit, offset, fields);
+    public List<ArticleDto> getArticlesForPagination(int limit, int offset) {
+        System.out.println(this.articleMapper.findWithPagination(limit, offset));
+        return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset), new TypeToken<List<ArticleDto>>() {}.getType());
     }
 
     @Override
-    public int getArticleCount() {
-        return this.articleRepository.getArticleCount();
+    public long getArticleCount() {
+        return this.articleMapper.count();
     }
 
     @Override
-    public ArticleDto getArticleDetail(int id, List<String> fields, boolean isMarkdown) {
-        ArticleDto articleDto = this.articleRepository.selectForArticleDetail(id, fields);
+    public ArticleDto getArticle(int id, boolean isMarkdown) {
+        ArticleDto articleDto = this.modelMapper.map(this.articleMapper.findById(id), ArticleDto.class);
         if (!isMarkdown) {
-            Parser parser = Parser.builder().build();
-            Document document = parser.parse(articleDto.getContent());
-            HtmlRenderer renderer = HtmlRenderer.builder().build();
-            articleDto.setContent(renderer.render(document));
+            this.convertToHtml(articleDto);
         }
         return articleDto;
     }
 
     @Override
-    public ArticleDto save(Article article) {
-        return articleRepository.save(article);
+    public ArticleDto save(ArticleDto articleDto) {
+        return this.saveArticle(articleDto, INSERT);
     }
 
     @Override
-    public ArticleDto update(Article article) {
-        return this.articleRepository.update(article);
+    public ArticleDto update(ArticleDto articleDto) {
+        return this.saveArticle(articleDto, UPDATE);
     }
-
 
     @Override
-    public void delete(int id) {
-        this.articleRepository.delete(id);
+    public boolean delete(int id) {
+        boolean hasDeleted = this.articleMapper.delete(id);
+        hasDeleted = this.articleMapper.deleteArticleTagRelationByArticleId(id);
+        return hasDeleted;
     }
 
+    private void convertToHtml(ArticleDto articleDto) {
+        Parser parser = Parser.builder().build();
+        Document document = parser.parse(articleDto.getContent());
+        HtmlRenderer renderer = HtmlRenderer.builder().build();
+        articleDto.setContent(renderer.render(document));
+    }
 
+    private ArticleDto saveArticle(ArticleDto articleDto, String type) {
+
+        Article article = this.modelMapper.map(articleDto, Article.class);
+
+        boolean hasSaved = false;
+
+        if (INSERT.equals(type)) {
+            hasSaved = this.articleMapper.save(article);
+        } else if (UPDATE.equals(type)) {
+            hasSaved = this.articleMapper.update(article);
+        }
+
+        if (!hasSaved) {
+            logger.error("記事を保存できませんでした。");
+        }
+
+         if (article.getTagList().isEmpty()) {
+            return articleDto;
+        }
+
+        if (INSERT.equals(type)) {
+            article.setId(this.articleMapper.getLastInsertId());
+        } else if (UPDATE.equals(type)) {
+            this.articleMapper.deleteArticleTagRelationByArticleId(article.getId());
+        }
+
+        this.articleMapper.saveArticleTagRelation(article);
+        return articleDto;
+    }
 }
