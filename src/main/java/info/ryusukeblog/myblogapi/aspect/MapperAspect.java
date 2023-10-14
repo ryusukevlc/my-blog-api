@@ -29,7 +29,6 @@ public class MapperAspect {
 
         if (methodName.startsWith("save")) {
             this.setCreatedAt(now, model);
-            this.setUpdatedAt(now, model);
         } else if (methodName.startsWith("update")) {
             this.setUpdatedAt(now, model);
         }
