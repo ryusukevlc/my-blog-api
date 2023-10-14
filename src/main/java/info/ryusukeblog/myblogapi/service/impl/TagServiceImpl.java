@@ -1,6 +1,6 @@
-package info.ryusukeblog.service.impl;
+package info.ryusukeblog.myblogapi.service.impl;
 
-import info.ryusukeblog.service.TagService;
+import info.ryusukeblog.myblogapi.service.TagService;
 import org.springframework.stereotype.Service;
 
 @Service
