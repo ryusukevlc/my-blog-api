@@ -1,10 +1,10 @@
-package info.ryusukeblog.model;
-
-import java.time.LocalDateTime;
-import java.util.List;
+package info.ryusukeblog.myblogapi.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter

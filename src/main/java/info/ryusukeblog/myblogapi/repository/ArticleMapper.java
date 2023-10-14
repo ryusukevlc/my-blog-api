@@ -1,10 +1,9 @@
-package info.ryusukeblog.repository;
+package info.ryusukeblog.myblogapi.repository;
 
-import java.util.List;
-
+import info.ryusukeblog.myblogapi.model.Article;
 import org.apache.ibatis.annotations.Mapper;
 
-import info.ryusukeblog.model.Article;
+import java.util.List;
 
 @Mapper
 public interface ArticleMapper {
@@ -28,5 +27,5 @@ public interface ArticleMapper {
     int saveArticleTagRelation(Article article);
 
     boolean deleteArticleTagRelationByArticleId(int articleId);
-    
+
 }

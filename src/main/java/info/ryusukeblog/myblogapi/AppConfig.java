@@ -1,4 +1,4 @@
-package info.ryusukeblog;
+package info.ryusukeblog.myblogapi;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -11,5 +11,5 @@ public class AppConfig {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
-    
+
 }

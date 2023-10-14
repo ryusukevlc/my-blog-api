@@ -1,11 +1,11 @@
-package info.ryusukeblog.controller;
+package info.ryusukeblog.myblogapi.controller;
 
-import info.ryusukeblog.dto.ArticleDto;
-import info.ryusukeblog.service.ArticleService;
-
+import info.ryusukeblog.myblogapi.dto.ArticleDto;
+import info.ryusukeblog.myblogapi.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -39,12 +39,12 @@ public class ArticleController {
     }
 
     @PostMapping("/articles")
-    public ArticleDto create(@RequestBody ArticleDto articleDto) {
+    public ArticleDto create(@RequestBody ArticleDto articleDto) throws ResponseStatusException {
         return this.articleService.save(articleDto);
     }
 
     @PatchMapping("/articles")
-    public ArticleDto update(@RequestBody ArticleDto articleDto) {
+    public ArticleDto update(@RequestBody ArticleDto articleDto) throws ResponseStatusException {
         return this.articleService.update(articleDto);
     }
 

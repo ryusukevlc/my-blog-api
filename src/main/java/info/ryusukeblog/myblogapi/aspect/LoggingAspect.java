@@ -1,4 +1,4 @@
-package info.ryusukeblog.aspect;
+package info.ryusukeblog.myblogapi.aspect;
 
 
 import org.aspectj.lang.ProceedingJoinPoint;

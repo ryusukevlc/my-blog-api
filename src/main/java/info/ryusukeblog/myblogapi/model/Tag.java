@@ -1,9 +1,9 @@
-package info.ryusukeblog.model;
-
-import java.time.LocalDateTime;
+package info.ryusukeblog.myblogapi.model;
 
 import lombok.Getter;
 import lombok.Setter;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter

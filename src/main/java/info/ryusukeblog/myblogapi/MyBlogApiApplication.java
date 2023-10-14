@@ -1,4 +1,4 @@
-package info.ryusukeblog;
+package info.ryusukeblog.myblogapi;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
