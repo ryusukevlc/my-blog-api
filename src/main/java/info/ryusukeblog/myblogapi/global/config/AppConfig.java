@@ -1,4 +1,4 @@
-package info.ryusukeblog.myblogapi.config;
+package info.ryusukeblog.myblogapi.global.config;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;

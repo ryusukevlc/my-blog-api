@@ -1,4 +1,4 @@
-package info.ryusukeblog.myblogapi.advice;
+package info.ryusukeblog.myblogapi.global.advice;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.HttpHeaders;
