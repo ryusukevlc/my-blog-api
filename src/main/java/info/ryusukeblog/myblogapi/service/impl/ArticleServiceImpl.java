@@ -16,8 +16,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
@@ -38,9 +40,9 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> getArticlesForPagination(int limit, int offset) {
-        System.out.println(this.articleMapper.findWithPagination(limit, offset));
-        return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset), new TypeToken<List<ArticleDto>>() {
+    public List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields) {
+        Map<String, Boolean> fieldMap = convertListToMap(fields);
+        return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset, fieldMap), new TypeToken<List<ArticleDto>>() {
         }.getType());
     }
 
@@ -108,5 +110,13 @@ public class ArticleServiceImpl implements ArticleService {
         this.articleMapper.saveArticleTagRelation(article);
 
         return articleDto;
+    }
+
+    private Map<String, Boolean> convertListToMap(List<String> fields) {
+        Map<String, Boolean> fieldMap = new HashMap<>();
+        for (String field : fields) {
+            fieldMap.put(field, true);
+        }
+        return fieldMap;
     }
 }

@@ -30,7 +30,15 @@
         from articles;
     </select>
     <select id="findWithPagination" resultMap="ArticleResultMap">
-        select *
+        select
+        <if test="fieldMap.id">id,</if>
+        <if test="fieldMap.title">title,</if>
+        <if test="fieldMap.content">content,</if>
+        <if test="fieldMap.isWriting">is_writing,</if>
+        <if test="fieldMap.createdAt">created_at,</if>
+        <if test="fieldMap.updatedAt">updated_at,</if>
+        <if test="fieldMap.partOfContent">part_of_content,</if>
+        1 as dammy
         from articles
         order by created_at desc limit #{limit}
         offset #{offset};

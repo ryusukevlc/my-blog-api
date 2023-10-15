@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ArticleService {
 
-    List<ArticleDto> getArticlesForPagination(int limit, int offset);
+    List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields);
 
     long getArticleCount();
 

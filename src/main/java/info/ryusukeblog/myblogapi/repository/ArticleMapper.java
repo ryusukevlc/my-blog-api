@@ -4,6 +4,7 @@ import info.ryusukeblog.myblogapi.model.Article;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ArticleMapper {
@@ -12,7 +13,7 @@ public interface ArticleMapper {
 
     List<Article> findAll();
 
-    List<Article> findWithPagination(Integer limit, Integer offset);
+    List<Article> findWithPagination(Integer limit, Integer offset, Map<String, Boolean> fieldMap);
 
     int count();
 

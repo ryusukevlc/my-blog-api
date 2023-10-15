@@ -1,6 +1,8 @@
 package info.ryusukeblog.myblogapi.controller;
 
+import info.ryusukeblog.myblogapi.controller.validator.ArticleControllerValidator;
 import info.ryusukeblog.myblogapi.dto.ArticleDto;
+import info.ryusukeblog.myblogapi.model.Article;
 import info.ryusukeblog.myblogapi.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,16 +16,19 @@ import java.util.Map;
 @RestController
 public class ArticleController {
 
-    ArticleService articleService;
+    private final ArticleService articleService;
+    private final ArticleControllerValidator validator;
 
 
-    public ArticleController(ArticleService articleService) {
+    public ArticleController(ArticleService articleService, ArticleControllerValidator validator) {
         this.articleService = articleService;
+        this.validator = validator;
     }
 
     @GetMapping("/articles")
-    public List<ArticleDto> getArticles(@RequestParam(value = "limit", required = true, defaultValue = "0") int limit, @RequestParam(value = "offset", required = true, defaultValue = "0") int offset) {
-        return this.articleService.getArticlesForPagination(limit, offset);
+    public List<ArticleDto> getArticles(@RequestParam(value = "limit", required = true, defaultValue = "0") int limit, @RequestParam(value = "offset", required = true, defaultValue = "0") int offset, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
+        this.validator.validateRequestFields(Article.class, fields);
+        return this.articleService.getArticlesForPagination(limit, offset, fields);
     }
 
     @GetMapping("/articles/count")
