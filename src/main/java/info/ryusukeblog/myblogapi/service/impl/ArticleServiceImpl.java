@@ -72,6 +72,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public boolean delete(int id) {
+        if (this.articleMapper.findById(id) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID", new String[]{Integer.valueOf(id).toString()}, Locale.JAPAN));
+        }
         boolean hasDeleted = this.articleMapper.delete(id);
         hasDeleted = this.articleMapper.deleteArticleTagRelationByArticleId(id);
         return hasDeleted;
