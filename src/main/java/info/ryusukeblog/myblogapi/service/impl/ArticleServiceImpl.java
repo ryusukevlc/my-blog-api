@@ -11,28 +11,30 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
     static final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
 
+    MessageSource messageSource;
+
     private static final String INSERT = "INSERT";
     private static final String UPDATE = "UPDATE";
-    private static final String ARTICLE_NOT_FOUND_WITH_ID = "記事が見つかりませんでした。(記事ID: %s)";
-    private static final String COULD_NOT_SAVE_ARTICLE_WITH_TITLE = "記事を保存できませんでした。(記事タイトル: %s)";
-    private static final String COULD_NOT_UPDATE_ARTICLE_WITH_ID = "記事を更新できませんでした。(記事ID: %s)";
     private final ArticleMapper articleMapper;
     private final ModelMapper modelMapper;
 
-    public ArticleServiceImpl(ArticleMapper articleMapper, ModelMapper modelMapper) {
+    public ArticleServiceImpl(ArticleMapper articleMapper, ModelMapper modelMapper, MessageSource messageSource) {
         this.articleMapper = articleMapper;
         this.modelMapper = modelMapper;
+        this.messageSource = messageSource;
     }
 
     @Override
@@ -86,21 +88,12 @@ public class ArticleServiceImpl implements ArticleService {
         Article article = this.modelMapper.map(articleDto, Article.class);
 
         if (INSERT.equals(type)) {
-
-            boolean hasSaved = this.articleMapper.save(article);
-            if (!hasSaved) {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, String.format(COULD_NOT_SAVE_ARTICLE_WITH_TITLE, article.getTitle()));
-            }
+            this.articleMapper.save(article);
         } else if (UPDATE.equals(type)) {
-
             if (this.articleMapper.findById(article.getId()) == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format(ARTICLE_NOT_FOUND_WITH_ID, article.getId()));
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID", new String[]{Integer.valueOf(article.getId()).toString()}, Locale.JAPAN));
             }
-
-            boolean hasUpdated = this.articleMapper.update(article);
-            if (!hasUpdated) {
-                throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, String.format(COULD_NOT_UPDATE_ARTICLE_WITH_ID, article.getId()));
-            }
+            this.articleMapper.update(article);
         }
 
         if (UPDATE.equals(type)) {
