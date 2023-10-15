@@ -1,4 +1,4 @@
-package info.ryusukeblog.myblogapi;
+package info.ryusukeblog.myblogapi.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
