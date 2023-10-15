@@ -61,12 +61,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleDto save(ArticleDto articleDto) throws ResponseStatusException {
+    public ArticleDto save(ArticleDto articleDto) {
         return this.saveArticle(articleDto, INSERT);
     }
 
     @Override
-    public ArticleDto update(ArticleDto articleDto) throws ResponseStatusException {
+    public ArticleDto update(ArticleDto articleDto) {
         return this.saveArticle(articleDto, UPDATE);
     }
 
@@ -84,7 +84,7 @@ public class ArticleServiceImpl implements ArticleService {
         articleDto.setContent(renderer.render(document));
     }
 
-    private ArticleDto saveArticle(ArticleDto articleDto, String type) throws ResponseStatusException {
+    private ArticleDto saveArticle(ArticleDto articleDto, String type) {
         // TODO: このメソッドはトランザクション化した方がいい。理由は複数テーブル更新するため、最後のテーブル更新時に例外が発生するとデータに不整合が発生するため。
 
         Article article = this.modelMapper.map(articleDto, Article.class);
