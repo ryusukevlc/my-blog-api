@@ -2,3 +2,4 @@ ERROR:
   ARTICLE_NOT_FOUND_WITH_ID: "記事が見つかりませんでした。(記事ID: {0})"
   COULD_NOT_SAVE_ARTICLE_WITH_TITLE: "記事を保存できませんでした。(記事タイトル: {0})"
   COULD_NOT_UPDATE_ARTICLE_WITH_ID: "記事を更新できませんでした。(記事ID: {0})"
+  FIELDS_ARE_WRONG: "クエリパラメータのフィールドに誤りがあります。"
