@@ -6,11 +6,11 @@ import java.util.List;
 
 public interface ArticleService {
 
-    List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields);
+    List<ArticleDto> getColumnsWithPagination(int limit, int offset, List<String> fields);
 
-    long getArticleCount();
+    long getCount();
 
-    ArticleDto getArticle(int id, boolean isMarkdown);
+    ArticleDto getOne(int id, boolean isMarkdown);
 
     ArticleDto save(ArticleDto articleDto);
 

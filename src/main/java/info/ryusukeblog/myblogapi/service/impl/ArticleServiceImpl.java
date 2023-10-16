@@ -40,19 +40,19 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public List<ArticleDto> getArticlesForPagination(int limit, int offset, List<String> fields) {
+    public List<ArticleDto> getColumnsWithPagination(int limit, int offset, List<String> fields) {
         Map<String, Boolean> fieldMap = convertListToMap(fields);
         return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset, fieldMap), new TypeToken<List<ArticleDto>>() {
         }.getType());
     }
 
     @Override
-    public long getArticleCount() {
+    public long getCount() {
         return this.articleMapper.count();
     }
 
     @Override
-    public ArticleDto getArticle(int id, boolean isMarkdown) {
+    public ArticleDto getOne(int id, boolean isMarkdown) {
         ArticleDto articleDto = this.modelMapper.map(this.articleMapper.findById(id), ArticleDto.class);
         if (!isMarkdown) {
             this.convertToHtml(articleDto);
