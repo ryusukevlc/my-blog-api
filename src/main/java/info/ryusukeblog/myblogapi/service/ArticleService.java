@@ -1,7 +1,6 @@
 package info.ryusukeblog.myblogapi.service;
 
 import info.ryusukeblog.myblogapi.dto.ArticleDto;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -13,9 +12,9 @@ public interface ArticleService {
 
     ArticleDto getArticle(int id, boolean isMarkdown);
 
-    ArticleDto save(ArticleDto articleDto) throws ResponseStatusException;
+    ArticleDto save(ArticleDto articleDto);
 
-    ArticleDto update(ArticleDto articleDto) throws ResponseStatusException;
+    ArticleDto update(ArticleDto articleDto);
 
     boolean delete(int id);
 }
