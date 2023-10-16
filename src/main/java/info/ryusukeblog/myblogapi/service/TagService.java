@@ -1,7 +1,14 @@
 package info.ryusukeblog.myblogapi.service;
 
-public interface TagService {
-    // Tag save(Tag tag);
+import info.ryusukeblog.myblogapi.dto.TagDto;
 
-    // List<Tag> getTags();
+import java.util.List;
+
+public interface TagService {
+
+    List<TagDto> findAll();
+
+    TagDto save(TagDto tagDto);
+
+    boolean delete(int id);
 }
