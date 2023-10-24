@@ -47,6 +47,11 @@ public class ArticleController {
         return this.articleService.save(articleDto);
     }
 
+    @PostMapping("/articles/drafts")
+    public ArticleDto saveAsDraft(@RequestBody ArticleDto articleDto) {
+        return this.articleService.saveAsDraft(articleDto);
+    }
+
     @PatchMapping("/articles")
     public ArticleDto update(@RequestBody ArticleDto articleDto) {
         return this.articleService.update(articleDto);
