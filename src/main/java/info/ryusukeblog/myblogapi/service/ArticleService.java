@@ -14,6 +14,8 @@ public interface ArticleService {
 
     ArticleDto save(ArticleDto articleDto);
 
+    ArticleDto saveAsDraft(ArticleDto articleDto);
+
     ArticleDto update(ArticleDto articleDto);
 
     boolean delete(int id);
