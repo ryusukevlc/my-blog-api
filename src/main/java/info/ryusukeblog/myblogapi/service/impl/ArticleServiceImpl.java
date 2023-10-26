@@ -66,6 +66,12 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
+    public ArticleDto saveAsDraft(ArticleDto articleDto) {
+        articleDto.setWriting(true);
+        return this.saveArticle(articleDto, INSERT);
+    }
+
+    @Override
     public ArticleDto update(ArticleDto articleDto) {
         return this.saveArticle(articleDto, UPDATE);
     }
