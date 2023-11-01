@@ -7,6 +7,7 @@ import info.ryusukeblog.myblogapi.dto.ArticleDto;
 import info.ryusukeblog.myblogapi.model.Article;
 import info.ryusukeblog.myblogapi.repository.ArticleMapper;
 import info.ryusukeblog.myblogapi.service.ArticleService;
+import org.jsoup.Jsoup;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.slf4j.Logger;
@@ -30,6 +31,8 @@ public class ArticleServiceImpl implements ArticleService {
 
     private static final String INSERT = "INSERT";
     private static final String UPDATE = "UPDATE";
+
+    private static final int PART_OF_CONTENT_LENGTH = 150;
     private final ArticleMapper articleMapper;
     private final ModelMapper modelMapper;
 
@@ -62,6 +65,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto save(ArticleDto articleDto) {
+        if (articleDto.getPartOfContent().isEmpty()) {
+            this.setPartOfContent(articleDto);
+        }
         return this.saveArticle(articleDto, INSERT);
     }
 
@@ -73,6 +79,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto update(ArticleDto articleDto) {
+        if (articleDto.getPartOfContent().isEmpty()) {
+            this.setPartOfContent(articleDto);
+        }
         return this.saveArticle(articleDto, UPDATE);
     }
 
@@ -127,5 +136,15 @@ public class ArticleServiceImpl implements ArticleService {
             fieldMap.put(field, true);
         }
         return fieldMap;
+    }
+
+    private void setPartOfContent(ArticleDto articleDto) {
+        this.convertToHtml(articleDto);
+        String plainText = Jsoup.parse(articleDto.getContent()).text();
+        if (plainText.length() > PART_OF_CONTENT_LENGTH) {
+            articleDto.setPartOfContent(plainText.substring(0, PART_OF_CONTENT_LENGTH));
+        } else {
+            articleDto.setPartOfContent(plainText);
+        }
     }
 }
