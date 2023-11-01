@@ -65,7 +65,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto save(ArticleDto articleDto) {
-        if (articleDto.getPartOfContent().isEmpty()) {
+        if (articleDto.getPartOfContent() == null || articleDto.getPartOfContent().isEmpty()) {
             this.setPartOfContent(articleDto);
         }
         return this.saveArticle(articleDto, INSERT);
@@ -79,7 +79,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto update(ArticleDto articleDto) {
-        if (articleDto.getPartOfContent().isEmpty()) {
+        if (articleDto.getPartOfContent() == null || articleDto.getPartOfContent().isEmpty()) {
             this.setPartOfContent(articleDto);
         }
         return this.saveArticle(articleDto, UPDATE);
