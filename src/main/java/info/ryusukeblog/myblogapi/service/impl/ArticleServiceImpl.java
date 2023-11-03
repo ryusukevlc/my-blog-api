@@ -58,7 +58,7 @@ public class ArticleServiceImpl implements ArticleService {
     public ArticleDto getOne(int id, boolean isMarkdown) {
         ArticleDto articleDto = this.modelMapper.map(this.articleMapper.findById(id), ArticleDto.class);
         if (!isMarkdown) {
-            this.convertToHtml(articleDto);
+            articleDto.setContent(this.convertToHtmlFromMd(articleDto.getContent()));
         }
         return articleDto;
     }
@@ -95,11 +95,11 @@ public class ArticleServiceImpl implements ArticleService {
         return hasDeleted;
     }
 
-    private void convertToHtml(ArticleDto articleDto) {
+    private String convertToHtmlFromMd(String markdown) {
         Parser parser = Parser.builder().build();
-        Document document = parser.parse(articleDto.getContent());
+        Document document = parser.parse(markdown);
         HtmlRenderer renderer = HtmlRenderer.builder().build();
-        articleDto.setContent(renderer.render(document));
+        return renderer.render(document);
     }
 
     private ArticleDto saveArticle(ArticleDto articleDto, String type) {
@@ -139,8 +139,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private void setPartOfContent(ArticleDto articleDto) {
-        this.convertToHtml(articleDto);
-        String plainText = Jsoup.parse(articleDto.getContent()).text();
+        String plainText = Jsoup.parse(this.convertToHtmlFromMd(articleDto.getContent())).text();
         if (plainText.length() > PART_OF_CONTENT_LENGTH) {
             articleDto.setPartOfContent(plainText.substring(0, PART_OF_CONTENT_LENGTH));
         } else {
