@@ -1,9 +1,6 @@
-package info.ryusukeblog.myblogapi.service.impl;
+package info.ryusukeblog.myblogapi.tag;
 
 import info.ryusukeblog.myblogapi.dto.TagDto;
-import info.ryusukeblog.myblogapi.model.Tag;
-import info.ryusukeblog.myblogapi.repository.TagMapper;
-import info.ryusukeblog.myblogapi.service.TagService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;

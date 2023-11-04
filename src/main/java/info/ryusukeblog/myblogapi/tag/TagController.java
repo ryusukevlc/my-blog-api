@@ -1,7 +1,6 @@
-package info.ryusukeblog.myblogapi.controller;
+package info.ryusukeblog.myblogapi.tag;
 
 import info.ryusukeblog.myblogapi.dto.TagDto;
-import info.ryusukeblog.myblogapi.service.TagService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,12 +1,9 @@
-package info.ryusukeblog.myblogapi.service.impl;
+package info.ryusukeblog.myblogapi.article;
 
 import com.vladsch.flexmark.html.HtmlRenderer;
 import com.vladsch.flexmark.parser.Parser;
 import com.vladsch.flexmark.util.ast.Document;
 import info.ryusukeblog.myblogapi.dto.ArticleDto;
-import info.ryusukeblog.myblogapi.model.Article;
-import info.ryusukeblog.myblogapi.repository.ArticleMapper;
-import info.ryusukeblog.myblogapi.service.ArticleService;
 import org.jsoup.Jsoup;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -44,6 +41,7 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public List<ArticleDto> getColumnsWithPagination(int limit, int offset, List<String> fields) {
+        // TODO: キャメルケースとスネークケースの２つを許容するように修正する
         Map<String, Boolean> fieldMap = convertListToMap(fields);
         return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset, fieldMap), new TypeToken<List<ArticleDto>>() {
         }.getType());
@@ -90,6 +88,7 @@ public class ArticleServiceImpl implements ArticleService {
         if (this.articleMapper.findById(id) == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID", new String[]{Integer.valueOf(id).toString()}, Locale.JAPAN));
         }
+        // TODO: ２回代入しているのを修正する
         boolean hasDeleted = this.articleMapper.delete(id);
         hasDeleted = this.articleMapper.deleteArticleTagRelationByArticleId(id);
         return hasDeleted;
@@ -103,7 +102,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     private ArticleDto saveArticle(ArticleDto articleDto, String type) {
-        // TODO: このメソッドはトランザクション化した方がいい。理由は複数テーブル更新するため、最後のテーブル更新時に例外が発生するとデータに不整合が発生するため。
+        // TODO: トランザクション化する
 
         Article article = this.modelMapper.map(articleDto, Article.class);
 
@@ -127,6 +126,7 @@ public class ArticleServiceImpl implements ArticleService {
         }
         this.articleMapper.saveArticleTagRelation(article);
 
+        // TODO: 戻り値としてarticleDtoを設定しているが、DB更新時は本当にarticleDtoを返すべきか。またこの状態で返しても作成日更新日が入っていないので検討する。
         return articleDto;
     }
 

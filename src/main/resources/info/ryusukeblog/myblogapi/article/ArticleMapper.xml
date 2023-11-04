@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="info.ryusukeblog.myblogapi.repository.ArticleMapper">
+<mapper namespace="info.ryusukeblog.myblogapi.article.ArticleMapper">
 
-    <resultMap id="ArticleResultMap" type="info.ryusukeblog.myblogapi.model.Article" autoMapping="true">
+    <resultMap id="ArticleResultMap" type="info.ryusukeblog.myblogapi.article.Article" autoMapping="true">
         <result property="id" column="id"></result>
         <result property="title" column="title"></result>
         <result property="content" column="content"></result>
@@ -13,7 +13,7 @@
         </collection>
     </resultMap>
 
-    <resultMap id="TagResultMap" type="info.ryusukeblog.myblogapi.model.Tag" autoMapping="true">
+    <resultMap id="TagResultMap" type="info.ryusukeblog.myblogapi.tag.Tag" autoMapping="true">
         <result property="id" column="id"></result>
         <result property="name" column="name"></result>
         <result property="createdAt" column="created_at" javaType="java.time.LocalDateTime"></result>
@@ -47,7 +47,7 @@
         select count(*)
         from articles;
     </select>
-    <insert id="save" parameterType="info.ryusukeblog.myblogapi.model.Article">
+    <insert id="save" parameterType="info.ryusukeblog.myblogapi.article.Article">
         insert into articles (title,
                               content,
                               is_writing,
@@ -61,7 +61,7 @@
                 #{createdAt},
                 #{updatedAt});
     </insert>
-    <update id="update" parameterType="info.ryusukeblog.myblogapi.model.Article">
+    <update id="update" parameterType="info.ryusukeblog.myblogapi.article.Article">
         update articles
         set id              = #{id},
             title           = #{title},
@@ -90,7 +90,7 @@
         where articles_tags.article_id = #{id};
     </select>
 
-    <insert id="saveArticleTagRelation" parameterType="info.ryusukeblog.myblogapi.model.Article">
+    <insert id="saveArticleTagRelation" parameterType="info.ryusukeblog.myblogapi.article.Article">
         insert into articles_tags (
         article_id,
         tag_id,

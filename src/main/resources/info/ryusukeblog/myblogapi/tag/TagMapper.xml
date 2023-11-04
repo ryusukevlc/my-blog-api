@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="info.ryusukeblog.myblogapi.repository.TagMapper">
+<mapper namespace="info.ryusukeblog.myblogapi.tag.TagMapper">
 
-    <resultMap id="TagResultMap" type="info.ryusukeblog.myblogapi.model.Tag">
+    <resultMap id="TagResultMap" type="info.ryusukeblog.myblogapi.tag.Tag">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="createdAt" column="created_at"/>
@@ -14,7 +14,7 @@
         from tags;
     </select>
 
-    <insert id="save" parameterType="info.ryusukeblog.myblogapi.model.Tag">
+    <insert id="save" parameterType="info.ryusukeblog.myblogapi.tag.Tag">
         insert into tags (name, created_at, updated_at)
         values (#{name}, #{createdAt}, #{updatedAt});
     </insert>

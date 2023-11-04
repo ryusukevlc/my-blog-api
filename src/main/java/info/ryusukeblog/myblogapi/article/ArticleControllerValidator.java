@@ -1,4 +1,4 @@
-package info.ryusukeblog.myblogapi.controller.validator;
+package info.ryusukeblog.myblogapi.article;
 
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
@@ -24,6 +24,7 @@ public class ArticleControllerValidator {
             return;
         }
         List<String> classPropertyNames = new ArrayList<>();
+        // TODO: クエリパラメータがキャメルケースの場合とスネークケースの場合のどちらも許容するように修正する
         for (Field field : clazz.getDeclaredFields()) {
             classPropertyNames.add(field.getName());
         }

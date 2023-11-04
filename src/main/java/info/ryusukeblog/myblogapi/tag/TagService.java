@@ -1,4 +1,4 @@
-package info.ryusukeblog.myblogapi.service;
+package info.ryusukeblog.myblogapi.tag;
 
 import info.ryusukeblog.myblogapi.dto.TagDto;
 

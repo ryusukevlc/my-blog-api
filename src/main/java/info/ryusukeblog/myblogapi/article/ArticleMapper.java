@@ -1,6 +1,5 @@
-package info.ryusukeblog.myblogapi.repository;
+package info.ryusukeblog.myblogapi.article;
 
-import info.ryusukeblog.myblogapi.model.Article;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

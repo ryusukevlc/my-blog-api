@@ -1,9 +1,6 @@
-package info.ryusukeblog.myblogapi.controller;
+package info.ryusukeblog.myblogapi.article;
 
-import info.ryusukeblog.myblogapi.controller.validator.ArticleControllerValidator;
 import info.ryusukeblog.myblogapi.dto.ArticleDto;
-import info.ryusukeblog.myblogapi.model.Article;
-import info.ryusukeblog.myblogapi.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

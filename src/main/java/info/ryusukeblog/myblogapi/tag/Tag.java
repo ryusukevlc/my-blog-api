@@ -1,4 +1,4 @@
-package info.ryusukeblog.myblogapi.model;
+package info.ryusukeblog.myblogapi.tag;
 
 import lombok.Getter;
 import lombok.Setter;

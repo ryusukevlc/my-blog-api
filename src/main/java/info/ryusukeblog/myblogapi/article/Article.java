@@ -1,5 +1,6 @@
-package info.ryusukeblog.myblogapi.model;
+package info.ryusukeblog.myblogapi.article;
 
+import info.ryusukeblog.myblogapi.tag.Tag;
 import lombok.Getter;
 import lombok.Setter;
 
