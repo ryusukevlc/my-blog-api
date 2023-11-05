@@ -22,7 +22,10 @@ public class ArticleController {
     }
 
     @GetMapping("/articles")
-    public List<ArticleDto> getColumnsWithPagination(@RequestParam(value = "limit", required = true, defaultValue = "0") int limit, @RequestParam(value = "offset", required = true, defaultValue = "0") int offset, @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
+    public List<ArticleDto> getColumnsWithPagination(
+            @RequestParam(value = "limit", required = true, defaultValue = "0") int limit,
+            @RequestParam(value = "offset", required = true, defaultValue = "0") int offset,
+            @RequestParam(value = "fields", required = false, defaultValue = "") List<String> fields) {
         this.validator.validateRequestFields(Article.class, fields);
         return this.articleService.getColumnsWithPagination(limit, offset, fields);
     }

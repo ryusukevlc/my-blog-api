@@ -43,8 +43,9 @@ public class ArticleServiceImpl implements ArticleService {
     public List<ArticleDto> getColumnsWithPagination(int limit, int offset, List<String> fields) {
         // TODO: キャメルケースとスネークケースの２つを許容するように修正する
         Map<String, Boolean> fieldMap = convertListToMap(fields);
-        return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset, fieldMap), new TypeToken<List<ArticleDto>>() {
-        }.getType());
+        return this.modelMapper.map(this.articleMapper.findWithPagination(limit, offset, fieldMap),
+                new TypeToken<List<ArticleDto>>() {
+                }.getType());
     }
 
     @Override
@@ -71,7 +72,10 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     public ArticleDto saveAsDraft(ArticleDto articleDto) {
-        articleDto.setWriting(true);
+        if (articleDto.getPartOfContent() == null || articleDto.getPartOfContent().isEmpty()) {
+            this.setPartOfContent(articleDto);
+        }
+        articleDto.setIsWriting(true);
         return this.saveArticle(articleDto, INSERT);
     }
 
@@ -112,7 +116,11 @@ public class ArticleServiceImpl implements ArticleService {
             this.articleMapper.save(article);
         } else if (UPDATE.equals(type)) {
             if (this.articleMapper.findById(article.getId()) == null) {
-                throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID", new String[]{Integer.valueOf(article.getId()).toString()}, Locale.JAPAN));
+                throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID",
+                                new String[]{Integer.valueOf(
+                                        article.getId()).toString()},
+                                Locale.JAPAN));
             }
             this.articleMapper.update(article);
         }
