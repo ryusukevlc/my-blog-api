@@ -20,4 +20,12 @@ public class ArticleDto {
 
     public List<TagDto> tagList;
 
+    public void setIsWriting(boolean isWriting) {
+        this.isWriting = isWriting;
+    }
+
+    public boolean getIsWriting() {
+        return this.isWriting;
+    }
+
 }
