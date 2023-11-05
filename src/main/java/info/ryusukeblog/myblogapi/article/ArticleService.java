@@ -18,6 +18,6 @@ public interface ArticleService {
 
     ArticleDto update(ArticleDto articleDto);
 
-    boolean delete(int id);
+    void delete(int id);
 }
 

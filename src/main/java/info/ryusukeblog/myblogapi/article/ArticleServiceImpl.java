@@ -84,14 +84,16 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public boolean delete(int id) {
+    public void delete(int id) {
+        // TODO: トランザクション化する
         if (this.articleMapper.findById(id) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID", new String[]{Integer.valueOf(id).toString()}, Locale.JAPAN));
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    this.messageSource.getMessage("ERROR.ARTICLE_NOT_FOUND_WITH_ID",
+                            new String[]{Integer.valueOf(
+                                    id).toString()}, Locale.JAPAN));
         }
-        // TODO: ２回代入しているのを修正する
-        boolean hasDeleted = this.articleMapper.delete(id);
-        hasDeleted = this.articleMapper.deleteArticleTagRelationByArticleId(id);
-        return hasDeleted;
+        this.articleMapper.delete(id);
+        this.articleMapper.deleteArticleTagRelationByArticleId(id);
     }
 
     private String convertToHtmlFromMd(String markdown) {
