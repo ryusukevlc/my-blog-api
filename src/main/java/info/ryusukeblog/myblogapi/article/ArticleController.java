@@ -56,11 +56,7 @@ public class ArticleController {
 
     @DeleteMapping("/articles/{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Integer id) {
-        boolean hasDeleted = this.articleService.delete(id);
-        if (hasDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        this.articleService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }
