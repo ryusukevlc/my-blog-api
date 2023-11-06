@@ -31,8 +31,8 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
-    public boolean delete(int id) {
-        return this.tagMapper.delete(id);
+    public void delete(int id) {
+        this.tagMapper.delete(id);
     }
 
 }

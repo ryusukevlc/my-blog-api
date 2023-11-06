@@ -29,11 +29,7 @@ public class TagController {
 
     @DeleteMapping("/tags/{id}")
     public ResponseEntity<String> delete(@PathVariable int id) {
-        boolean hasDeleted = this.tagService.delete(id);
-        if (hasDeleted) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-        throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        this.tagService.delete(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

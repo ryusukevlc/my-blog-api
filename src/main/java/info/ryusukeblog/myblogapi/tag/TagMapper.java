@@ -11,5 +11,5 @@ public interface TagMapper {
 
     boolean save(Tag tag);
 
-    boolean delete(int id);
+    void delete(int id);
 }
