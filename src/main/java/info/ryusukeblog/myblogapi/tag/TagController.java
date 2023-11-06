@@ -4,14 +4,13 @@ import info.ryusukeblog.myblogapi.dto.TagDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
 @RestController
 public class TagController {
 
-    private TagService tagService;
+    private final TagService tagService;
 
 
     public TagController(TagService tagService) {
