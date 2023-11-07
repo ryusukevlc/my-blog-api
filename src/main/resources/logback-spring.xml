@@ -1,24 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!-- デフォルト設定読み込み -->
     <include resource="org/springframework/boot/logging/logback/base.xml"/>
-
     <property name="logFileName" value="app"/>
 
-    <!--ローカル環境用設定 -->
-    <springProfile name="default">
-        <property name="logFilePath" value="./"/>
+    <!--dev環境用設定 -->
+    <springProfile name="dev">
+        <property name="logFilePath" value="/var/log/ryusukeblog-dev/"/>
     </springProfile>
 
-    <!--develop環境用設定 -->
-    <springProfile name="develop">
-        <property name="logFilePath" value="/var/log/velop/"/>
-    </springProfile>
-
-    <!--production環境用設定 -->
-    <springProfile name="production">
-        <property name="logFilePath" value="/var/log/production/"/>
+    <!--prod環境用設定 -->
+    <springProfile name="prod">
+        <property name="logFilePath" value="/var/log/ryusukeblog-prod/"/>
     </springProfile>
 
     <!-- コンソール出力 -->
@@ -31,7 +24,7 @@
     </appender>
 
     <!-- アプリケーションログのファイル書き出し -->
-    <appender name="APPLIATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="APPLICATION_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!--ファイル名 -->
         <file>${logFilePath}${logFileName}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
@@ -46,6 +39,6 @@
 
     <!--rootログレベルと使用出力ルール -->
     <root level="INFO">
-        <appender-ref ref="APPLIATION_LOG"/>
+        <appender-ref ref="APPLICATION_LOG"/>
     </root>
 </configuration>
